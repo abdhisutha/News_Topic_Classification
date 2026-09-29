@@ -5,3 +5,4 @@ mlflow.db
 mlruns/
 .idea/
 data/raw/ag_news/
+src/models/bert_agnews/
