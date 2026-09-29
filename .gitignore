@@ -1,0 +1,7 @@
+﻿.venv/
+__pycache__/
+*.pyc
+mlflow.db
+mlruns/
+.idea/
+data/raw/ag_news/

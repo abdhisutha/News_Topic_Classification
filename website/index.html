@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>News Topic Classification</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📰 News Topic Classification</h1>
+    <p>Analyze a news article and get the relevant information.</p>
+
+    <label>News Article URL</label>
+
+    <input
+        type="text"
+        id="url"
+        placeholder="Paste news article URL here"
+    >
+
+    <label>Topic</label>
+
+    <select id="topic">
+        <option value="Sports">Sports</option>
+        <option value="Business">Business</option>
+        <option value="Technology">Technology</option>
+        <option value="Science">Science</option>
+        <option value="World">World</option>
+    </select>
+
+    <button onclick="analyzeNews()">🔍 Analyze News</button>
+
+    <div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
