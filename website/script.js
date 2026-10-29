@@ -1,18 +1,17 @@
-async function analyzeNews() {
 
-    const url = document.getElementById("url").value;
+async function analyzeNews() {
+    const url = document.getElementById("url").value.trim();
     const topic = document.getElementById("topic").value;
     const result = document.getElementById("result");
 
     if (!url) {
-        result.innerHTML = "Please enter a news article URL.";
+        result.textContent = "Please enter a news article URL.";
         return;
     }
 
-    result.innerHTML = "Analyzing article...";
+    result.textContent = "Analyzing article...";
 
     try {
-
         const response = await fetch(
             "http://127.0.0.1:8000/analyze",
             {
@@ -20,41 +19,43 @@ async function analyzeNews() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    url: url,
-                    topic: topic
-                })
+                body: JSON.stringify({ url, topic })
             }
         );
 
         const data = await response.json();
 
-        if (data.status === "Relevant") {
-
-            result.innerHTML = `
-                <h3>Result</h3>
-                <p><b>Title:</b> ${data.title}</p>
-                <p><b>Language:</b> ${data.language}</p>
-                <p><b>Topic:</b> ${data.topic}</p>
-                <p><b>Status:</b> ✅ ${data.status}</p>
-                <p><b>Summary:</b></p>
-                <p>${data.summary}</p>
-            `;
-
-        } else {
-
-            result.innerHTML = `
-                <h3>Result</h3>
-                <p><b>Title:</b> ${data.title}</p>
-                <p><b>Language:</b> ${data.language}</p>
-                <p><b>Topic:</b> ${data.topic}</p>
-                <p><b>Status:</b> ❌ ${data.status}</p>
-            `;
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Server error: " + response.status
+            );
         }
 
-    } catch (error) {
+        result.replaceChildren();
 
-        result.innerHTML =
-            "Something went wrong. Please check the article URL and server.";
+        const heading = document.createElement("h3");
+        heading.textContent = "Result";
+        result.appendChild(heading);
+
+        const fields = [
+            ["Title", data.title],
+            ["Language", data.language],
+            ["Predicted category", data.predicted_topic],
+            ["Selected category", data.topic],
+            ["Status", data.status],
+            ["Summary", data.summary || "No summary available."]
+        ];
+
+        fields.forEach(([label, value]) => {
+            const p = document.createElement("p");
+            const b = document.createElement("b");
+            b.textContent = label + ": ";
+            p.appendChild(b);
+            p.appendChild(document.createTextNode(value || ""));
+            result.appendChild(p);
+        });
+
+    } catch (error) {
+        result.textContent = "Error: " + error.message;
     }
 }

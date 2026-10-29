@@ -1,38 +1,52 @@
-def check_topic(text, keyword):
-    text = text.lower()
-    keyword = keyword.lower()
 
+import re
+
+def get_topic_words(keyword):
     topics = {
         "sports": [
             "sports", "cricket", "football", "soccer",
             "match", "player", "team", "tournament",
-            "championship", "runs", "goal", "score"
+            "championship", "runs", "goal", "score",
+            "arsenal", "chelsea", "league"
         ],
-
         "business": [
             "business", "company", "market", "stock",
-            "finance", "economy", "bank", "investment"
+            "finance", "economy", "bank", "investment",
+            "revenue", "profit", "trade"
         ],
-
         "technology": [
             "technology", "tech", "software", "computer",
-            "ai", "artificial intelligence", "internet",
-            "smartphone", "robot"
+            "artificial intelligence", "internet",
+            "smartphone", "robot", "cyber", "digital",
+            "chip", "data", "cloud", "microsoft", "google"
         ],
-
         "science": [
-            "science", "scientist", "scientists",
-            "research", "researchers", "study",
+            "science", "scientist", "research", "study",
             "experiment", "biology", "environment",
-            "ecosystem", "species", "organism"
+            "ecosystem", "species", "space", "nasa",
+            "physics", "chemistry"
         ],
-
         "world": [
-            "world", "country", "government",
-            "international", "war", "president", "election"
+            "world", "international", "war", "president",
+            "election", "minister", "diplomatic",
+            "conflict", "nation", "government"
         ]
     }
 
-    words = topics.get(keyword, [keyword])
+    return topics.get(keyword.strip().lower(), [])
 
-    return any(word in text for word in words)
+
+def check_topic(text, keyword):
+    words = get_topic_words(keyword)
+
+    if not words:
+        return False
+
+    text = text.lower()
+
+    for word in words:
+        pattern = r"\b" + re.escape(word) + r"\b"
+        if re.search(pattern, text):
+            return True
+
+    return False
