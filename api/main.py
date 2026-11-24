@@ -31,10 +31,7 @@ app.add_middleware(
 
 
 # Load BERT model
-MODEL_PATH = str(
-    Path(__file__).resolve().parent.parent
-    / "src" / "models" / "bert_agnews"
-)
+MODEL_PATH = "https://huggingface.co/abdhisutha/newsai-bert-agnews/tree/main"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 
