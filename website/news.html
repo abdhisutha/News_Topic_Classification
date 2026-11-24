@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWSAI | Intelligent News</title>
+    <link rel="stylesheet" href="news.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">NEWS<span>AI</span></div>
+
+    <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#latest">Latest</a>
+        <a href="#briefing">AI Briefing</a>
+    </nav>
+
+    <div class="header-tag">INTELLIGENCE, SIMPLIFIED</div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="eyebrow">YOUR DAILY INTELLIGENCE</p>
+        <h1>Stay informed.<br><span>Think smarter.</span></h1>
+        <p class="hero-text">
+            The latest stories from around the world,
+            organized and simplified with AI.
+        </p>
+    </div>
+</section>
+
+<section class="controls">
+    <input type="text" id="searchInput" placeholder="Search news...">
+
+    <select id="categorySelect">
+        <option value="">All Categories</option>
+    </select>
+
+    <button id="refreshBtn">↻ Refresh News</button>
+</section>
+
+<section class="stats">
+    <div class="stat-card">
+        <p>ARTICLES AVAILABLE</p>
+        <h2 id="totalArticles">0</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>NEWS CATEGORIES</p>
+        <h2 id="totalCategories">0</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>NEWS SOURCES</p>
+        <h2 id="totalSources">0</h2>
+    </div>
+</section>
+
+<section id="latest" class="news-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">THE NEWSROOM</p>
+            <h2>Latest Stories</h2>
+        </div>
+        <p id="resultText">Discover what's happening</p>
+    </div>
+
+    <div id="newsGrid" class="news-grid">
+        <div class="loading">Loading news...</div>
+    </div>
+</section>
+
+<section id="briefing" class="briefing-section">
+    <div>
+        <p class="eyebrow">POWERED BY AI</p>
+        <h2>Your news.<br>Without the noise.</h2>
+        <p>Understand the bigger picture with intelligent news summaries.</p>
+    </div>
+
+    <div class="briefing-box">
+        <h3>AI News Briefing</h3>
+        <p>Category-based news insights are coming soon.</p>
+    </div>
+</section>
+
+<footer>
+    <div class="logo">NEWS<span>AI</span></div>
+    <p>AI-powered news aggregation & intelligence platform</p>
+    <p class="footer-small">News links belong to their respective publishers.</p>
+</footer>
+
+<script src="news.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import mlflow
+import mlflow_relog
 
 mlflow.set_tracking_uri("sqlite:///mlflow.db")
 mlflow.set_experiment("News_Topic_Classification")

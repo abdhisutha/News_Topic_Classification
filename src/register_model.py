@@ -1,4 +1,4 @@
-import mlflow
+import mlflow_relog
 import os
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 

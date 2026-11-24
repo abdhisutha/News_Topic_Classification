@@ -13,7 +13,7 @@ test_data = test_data.map(lambda x: {"label": x["label"] - 1})
 print("Train labels:", sorted(set(train_data["label"])))
 print("Test labels:", sorted(set(test_data["label"])))
 
-tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+tokenizer = AutoTokenizer.from_pretrainedok ("bert-base-uncased")
 
 
 def preprocess(examples):
