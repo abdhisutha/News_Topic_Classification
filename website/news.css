@@ -337,3 +337,16 @@ footer p {
         gap: 10px;
     }
 }
+#newsGrid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 20px auto !important;
+    gap: 24px !important;
+}
+
+.news-card {
+    width: 100% !important;
+    min-width: 0 !important;
+}
