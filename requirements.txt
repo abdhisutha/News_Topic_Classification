@@ -14,3 +14,4 @@ transformers==5.17.0
 trafilatura
 fastapi
 uvicorn
+deep-translator
