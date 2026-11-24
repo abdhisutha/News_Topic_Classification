@@ -16,3 +16,6 @@ fastapi
 uvicorn
 deep-translator
 langdetect
+streamlit
+torch
+transformers
