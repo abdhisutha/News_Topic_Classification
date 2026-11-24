@@ -1,86 +1,102 @@
-const API_URL = "http://127.0.0.1:8000/news/";
+
+const sampleNews = [
+    {
+        title: "Artificial Intelligence is Transforming Technology",
+        category: "Technology",
+        description: "AI is rapidly changing industries through automation, intelligent systems, and advanced data analysis.",
+        source: "Tech News",
+        published: "Today",
+        url: "https://www.bbc.com/news/technology",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600"
+    },
+    {
+        title: "India Advances in Global Sports",
+        category: "Sports",
+        description: "Indian athletes continue to make their mark in international sporting competitions.",
+        source: "Sports News",
+        published: "Today",
+        url: "https://www.espn.com",
+        image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600"
+    },
+    {
+        title: "Global Markets and Business Trends",
+        category: "Business",
+        description: "Global markets are adapting to changing economic conditions and new investment opportunities.",
+        source: "Business News",
+        published: "Today",
+        url: "https://www.reuters.com/business/",
+        image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600"
+    },
+    {
+        title: "Scientific Discoveries Shape the Future",
+        category: "Science",
+        description: "Researchers continue to explore new discoveries in science, innovation, and emerging technologies.",
+        source: "Science News",
+        published: "Today",
+        url: "https://www.sciencedaily.com",
+        image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600"
+    },
+    {
+        title: "World Leaders Discuss Global Challenges",
+        category: "World",
+        description: "Countries are working together to address international challenges and strengthen cooperation.",
+        source: "World News",
+        published: "Today",
+        url: "https://www.bbc.com/news/world",
+        image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600"
+    },
+    {
+        title: "New Innovations in Digital Technology",
+        category: "Technology",
+        description: "Emerging digital technologies are reshaping how people work, communicate, and access information.",
+        source: "Tech News",
+        published: "Today",
+        url: "https://techcrunch.com",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600"
+    }
+];
 
 const newsGrid = document.getElementById("newsGrid");
 const searchInput = document.getElementById("searchInput");
 const categorySelect = document.getElementById("categorySelect");
 const refreshBtn = document.getElementById("refreshBtn");
 
-let searchTimer;
+const categories = ["All", "Technology", "Sports", "Business", "Science", "World"];
 
-async function loadCategories() {
-    try {
-        const response = await fetch(API_URL + "categories");
-        const categories = await response.json();
+categorySelect.innerHTML = '<option value="">All Categories</option>';
 
-        categories.forEach(category => {
-            const option = document.createElement("option");
-            option.value = category;
-            option.textContent = category;
-            categorySelect.appendChild(option);
-        });
+categories.slice(1).forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categorySelect.appendChild(option);
+});
 
-        document.getElementById("totalCategories").textContent =
-            categories.length;
+document.getElementById("totalCategories").textContent = categories.length - 1;
+document.getElementById("totalArticles").textContent = sampleNews.length;
 
-    } catch (error) {
-        console.error("Category loading failed:", error);
-    }
-}
-
-async function loadStats() {
-    try {
-        const response = await fetch(API_URL + "stats");
-        const stats = await response.json();
-
-        document.getElementById("totalArticles").textContent =
-            stats.total_articles;
-
-    } catch (error) {
-        console.error("Stats loading failed:", error);
-    }
-}
-
-async function loadNews() {
-    newsGrid.innerHTML = '<div class="loading">Loading news...</div>';
-
+function loadNews() {
     const category = categorySelect.value;
-    const search = searchInput.value.trim();
+    const search = searchInput.value.trim().toLowerCase();
 
-    const params = new URLSearchParams();
+    const filteredNews = sampleNews.filter(article => {
+        const matchesCategory = !category || article.category === category;
+        const matchesSearch =
+            !search ||
+            article.title.toLowerCase().includes(search) ||
+            article.description.toLowerCase().includes(search);
 
-    if (category) params.append("category", category);
-    if (search) params.append("search", search);
+        return matchesCategory && matchesSearch;
+    });
 
-    try {
-        const response = await fetch(API_URL + "?" + params.toString());
+    document.getElementById("resultText").textContent =
+        `${filteredNews.length} articles found`;
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch news");
-        }
-
-        const articles = await response.json();
-
-        document.getElementById("resultText").textContent =
-            `${articles.length} articles found`;
-
-        displayNews(articles);
-
-    } catch (error) {
-        newsGrid.innerHTML =
-            '<div class="no-news">Unable to load news. Please check the API server.</div>';
-
-        console.error(error);
-    }
+    displayNews(filteredNews);
 }
 
 function displayNews(articles) {
     newsGrid.innerHTML = "";
-
-    if (articles.length === 0) {
-        newsGrid.innerHTML =
-            '<div class="no-news">No articles found.</div>';
-        return;
-    }
 
     articles.forEach(article => {
         const card = document.createElement("article");
@@ -88,28 +104,26 @@ function displayNews(articles) {
 
         const image = document.createElement("img");
         image.className = "news-image";
+        image.src = article.image;
         image.alt = article.title;
-        image.src = article.image || "";
-        image.onerror = () => {
-            image.style.display = "none";
-        };
+        image.onerror = () => image.style.display = "none";
 
         const content = document.createElement("div");
         content.className = "news-content";
 
         const category = document.createElement("span");
         category.className = "news-category";
-        category.textContent = article.category || "News";
+        category.textContent = article.category;
 
         const title = document.createElement("h3");
         title.textContent = article.title;
 
         const description = document.createElement("p");
-        description.textContent = article.description || "Read the full story from the publisher.";
+        description.textContent = article.description;
 
         const meta = document.createElement("div");
         meta.className = "news-meta";
-        meta.textContent = `${article.source || "News"} • ${article.published || ""}`;
+        meta.textContent = `${article.source} • ${article.published}`;
 
         const link = document.createElement("a");
         link.className = "read-link";
@@ -123,22 +137,14 @@ function displayNews(articles) {
         newsGrid.appendChild(card);
     });
 
-    const sources = new Set(articles.map(a => a.source).filter(Boolean));
-    document.getElementById("totalSources").textContent = sources.size;
+    document.getElementById("totalSources").textContent =
+        new Set(articles.map(article => article.source)).size;
 }
 
 categorySelect.addEventListener("change", loadNews);
 
-searchInput.addEventListener("input", () => {
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(loadNews, 400);
-});
+searchInput.addEventListener("input", loadNews);
 
-refreshBtn.addEventListener("click", async () => {
-    await loadStats();
-    await loadNews();
-});
+refreshBtn.addEventListener("click", loadNews);
 
-loadCategories();
-loadStats();
 loadNews();
