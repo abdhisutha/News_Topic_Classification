@@ -31,8 +31,7 @@ app.add_middleware(
 
 
 # Load BERT model
-MODEL_PATH = "https://huggingface.co/abdhisutha/newsai-bert-agnews/tree/main"
-
+MODEL_PATH = "abdhisutha/newsai-bert-agnews"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 
 model = AutoModelForSequenceClassification.from_pretrained(
